@@ -1,0 +1,41 @@
+flask_server_1.py   # file name 
+
+# Importing python based web server to run API webserver
+from flask import Flask, request,jsonify   
+from flask_restful import Resource, Api
+import json
+
+app = Flask(__name__)
+api = Api(app)
+
+# Class definition to create GET API 
+class Trans(Resource):            
+   def get(self):
+     key="ksdejk1l2"
+     src="Device1"
+     dest="Device2"
+     cmd="POST"
+     json_list = []
+
+ # The JSON object from the string variables
+     for i in range(0,1):              
+         jsonDist = {"key":key,"src":src,"dest":dest,"cmd":cmd}
+         json_list.append(jsonDist)
+     json_data = json.dumps(json_list)
+     return jsonify(json_data)
+
+#Class definition to create PUT API
+class Ack_Rply(Resource):               
+    def put(self):
+        resp= int(request.form['data'])
+        print resp
+
+# API that keeps posting the JSON object that contain device information
+api.add_resource(Trans, '/trans')         
+
+# API to accept the response from client after searching the whitelist 
+api.add_resource(Ack_Rply, '/ack')        
+
+ #Runs the API Server Indefinintely
+if __name__ == '__main__':                 
+          app.run(port='5002')
